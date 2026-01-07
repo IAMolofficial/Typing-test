@@ -479,17 +479,21 @@ function startAmbientSound() {
   if (isMuted || ambientOsc) return;
   if (themes[currentLevel].effect !== 'embers') return; // Only for Extreme/Expert
 
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+
   ambientOsc = audioCtx.createOscillator();
   ambientGain = audioCtx.createGain();
 
   ambientOsc.connect(ambientGain);
   ambientGain.connect(audioCtx.destination);
 
-  ambientOsc.type = 'sine';
-  ambientOsc.frequency.setValueAtTime(40, audioCtx.currentTime); // Low drone
+  ambientOsc.type = 'triangle'; // Triangle has more harmonics than Sine (easier to hear)
+  ambientOsc.frequency.setValueAtTime(80, audioCtx.currentTime); // 80Hz (Audible low drone)
 
   ambientGain.gain.setValueAtTime(0, audioCtx.currentTime);
-  ambientGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 2); // Fade in
+  ambientGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 2); // Fade in to 0.5
 
   ambientOsc.start();
 }
