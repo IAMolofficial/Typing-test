@@ -191,8 +191,8 @@ function initTimer() {
     timeLeft--;
     timerTag.innerText = `${timeLeft}s`;
 
-    // Heartbeat Effect (Last 5 seconds)
-    if (timeLeft <= 5) {
+    // Heartbeat Effect (Last 10 seconds)
+    if (timeLeft <= 10) {
       timerTag.classList.add('heartbeat');
       playHeartbeat();
     } else {
