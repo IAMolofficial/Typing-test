@@ -212,6 +212,20 @@ function finishTest() {
   finalAccTag.innerText = `${accuracy}%`;
 
   resultsModal.classList.add('show');
+
+  // Pass/Fail Logic
+  const statusEl = document.getElementById('result-status');
+  const criteria = themes[currentLevel].criteria;
+
+  statusEl.classList.remove('passed', 'failed');
+
+  if (netWPM >= criteria.wpm && accuracy >= criteria.acc) {
+    statusEl.innerText = "PASSED!";
+    statusEl.classList.add('passed');
+  } else {
+    statusEl.innerText = `FAILED! (Target: ${criteria.wpm} WPM / ${criteria.acc}%)`;
+    statusEl.classList.add('failed');
+  }
 }
 
 function resetGame() {
@@ -226,6 +240,10 @@ function resetGame() {
   currentWpmTag.innerText = 0;
   currentAccTag.innerText = "100%";
   resultsModal.classList.remove('show');
+
+  // Clear status
+  const statusEl = document.getElementById('result-status');
+  if (statusEl) statusEl.innerText = "";
 }
 
 // Time Selector Logic
@@ -255,7 +273,8 @@ const themes = {
     text: '#e2e8f0', // Light Grey for better read
     glass: 'rgba(2, 44, 34, 0.8)',
     glassBorder: 'rgba(74, 222, 128, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)'
+    innerBg: 'rgba(0, 0, 0, 0.3)',
+    criteria: { wpm: 40, acc: 92 }
   },
   hard: {
     primary: '#fb923c',
@@ -264,7 +283,8 @@ const themes = {
     text: '#ffedd5',
     glass: 'rgba(67, 20, 7, 0.8)',
     glassBorder: 'rgba(251, 146, 60, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)'
+    innerBg: 'rgba(0, 0, 0, 0.3)',
+    criteria: { wpm: 60, acc: 94 }
   },
   extreme: {
     primary: '#f87171',
@@ -273,7 +293,8 @@ const themes = {
     text: '#fee2e2',
     glass: 'rgba(69, 10, 10, 0.8)',
     glassBorder: 'rgba(248, 113, 113, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)'
+    innerBg: 'rgba(0, 0, 0, 0.3)',
+    criteria: { wpm: 80, acc: 96 }
   },
   expert: {
     primary: '#a78bfa',
@@ -282,7 +303,8 @@ const themes = {
     text: '#f3e8ff',
     glass: 'rgba(46, 16, 101, 0.8)',
     glassBorder: 'rgba(167, 139, 250, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)'
+    innerBg: 'rgba(0, 0, 0, 0.3)',
+    criteria: { wpm: 100, acc: 98 }
   }
 };
 
