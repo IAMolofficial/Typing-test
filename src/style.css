@@ -142,10 +142,11 @@ h1 {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--primary-color);
-  background: rgba(2, 132, 199, 0.1);
-  /* Adjusted for theme variable consistency */
-  padding: 0.5rem 1rem;
+  /* Use CSS Variable for inner backgrounds */
+  background: var(--inner-bg, rgba(255, 255, 255, 0.5));
+  padding: 0.25rem;
   border-radius: 12px;
+  border: 1px solid var(--glass-border);
 }
 
 .stats-bar {
@@ -185,7 +186,8 @@ h1 {
 .reference-container {
   flex: 1;
   /* Take remaining space to show full text */
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--inner-bg, rgba(255, 255, 255, 0.3));
+  /* Use variable */
   padding: 1.5rem;
   /* Reduced padding */
   border-radius: 12px;
@@ -203,7 +205,8 @@ h1 {
   /* "Size 10" interpretation (~16px) */
   line-height: 1.6;
   /* Tighter line height */
-  color: #475569;
+  color: var(--text-color);
+  /* Use variable */
   /* Darker slate for readability */
   white-space: pre-wrap;
   word-break: break-word;

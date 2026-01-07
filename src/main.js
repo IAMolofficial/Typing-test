@@ -251,34 +251,38 @@ const themes = {
   easy: {
     primary: '#4ade80', // Bright Green
     secondary: '#22c55e',
-    bg: 'radial-gradient(circle at center, #022c22 0%, #000000 100%)', // Deep Green/Black
-    text: '#f0fdf4',
-    glass: 'rgba(2, 44, 34, 0.7)',
-    glassBorder: 'rgba(74, 222, 128, 0.2)'
+    bg: 'radial-gradient(circle at center, #022c22 0%, #000000 100%)',
+    text: '#e2e8f0', // Light Grey for better read
+    glass: 'rgba(2, 44, 34, 0.8)',
+    glassBorder: 'rgba(74, 222, 128, 0.2)',
+    innerBg: 'rgba(0, 0, 0, 0.3)'
   },
   hard: {
-    primary: '#fb923c', // Bright Orange
+    primary: '#fb923c',
     secondary: '#ea580c',
-    bg: 'radial-gradient(circle at center, #431407 0%, #000000 100%)', // Deep Orange/Black
-    text: '#fff7ed',
-    glass: 'rgba(67, 20, 7, 0.7)',
-    glassBorder: 'rgba(251, 146, 60, 0.2)'
+    bg: 'radial-gradient(circle at center, #431407 0%, #000000 100%)',
+    text: '#ffedd5',
+    glass: 'rgba(67, 20, 7, 0.8)',
+    glassBorder: 'rgba(251, 146, 60, 0.2)',
+    innerBg: 'rgba(0, 0, 0, 0.3)'
   },
   extreme: {
-    primary: '#f87171', // Bright Red
+    primary: '#f87171',
     secondary: '#dc2626',
-    bg: 'radial-gradient(circle at center, #450a0a 0%, #000000 100%)', // Deep Red/Black
-    text: '#fef2f2',
-    glass: 'rgba(69, 10, 10, 0.7)',
-    glassBorder: 'rgba(248, 113, 113, 0.2)'
+    bg: 'radial-gradient(circle at center, #450a0a 0%, #000000 100%)',
+    text: '#fee2e2',
+    glass: 'rgba(69, 10, 10, 0.8)',
+    glassBorder: 'rgba(248, 113, 113, 0.2)',
+    innerBg: 'rgba(0, 0, 0, 0.3)'
   },
   expert: {
-    primary: '#a78bfa', // Bright Purple
+    primary: '#a78bfa',
     secondary: '#7c3aed',
-    bg: 'radial-gradient(circle at center, #2e1065 0%, #000000 100%)', // Deep Purple/Black
-    text: '#f5f3ff',
-    glass: 'rgba(46, 16, 101, 0.7)',
-    glassBorder: 'rgba(167, 139, 250, 0.2)'
+    bg: 'radial-gradient(circle at center, #2e1065 0%, #000000 100%)',
+    text: '#f3e8ff',
+    glass: 'rgba(46, 16, 101, 0.8)',
+    glassBorder: 'rgba(167, 139, 250, 0.2)',
+    innerBg: 'rgba(0, 0, 0, 0.3)'
   }
 };
 
@@ -286,10 +290,11 @@ function applyTheme(level) {
   const theme = themes[level];
   document.documentElement.style.setProperty('--primary-color', theme.primary);
   document.documentElement.style.setProperty('--secondary-color', theme.secondary);
-  document.documentElement.style.setProperty('--bg-color', '#000000'); // Fallback
+  document.documentElement.style.setProperty('--bg-color', '#000000');
   document.documentElement.style.setProperty('--text-color', theme.text);
   document.documentElement.style.setProperty('--glass-bg', theme.glass);
   document.documentElement.style.setProperty('--glass-border', theme.glassBorder);
+  document.documentElement.style.setProperty('--inner-bg', theme.innerBg);
   document.body.style.background = theme.bg;
 }
 
