@@ -155,7 +155,8 @@ h1 {
   flex: 1;
   /* Take remaining space to show full text */
   background: rgba(255, 255, 255, 0.3);
-  padding: 2rem;
+  padding: 1.5rem;
+  /* Reduced padding */
   border-radius: 12px;
   overflow-y: auto;
   border: 1px solid var(--glass-border);
@@ -166,9 +167,10 @@ h1 {
 }
 
 .text-display {
-  font-size: 1.35rem;
-  /* Larger text */
-  line-height: 1.8;
+  font-size: 1.1rem;
+  /* Smaller text to fit screen */
+  line-height: 1.6;
+  /* Tighter line height */
   color: #475569;
   /* Darker slate for readability */
   white-space: pre-wrap;
