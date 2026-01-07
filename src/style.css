@@ -79,63 +79,75 @@ h1 {
 .time-selector {
   display: flex;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.5);
-  padding: 0.25rem;
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
+  /* Water/Glass Effect */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.35rem;
+  border-radius: 50px;
+  /* Pill shape for smoother water look */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05), 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .time-btn {
   background: transparent;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
   cursor: pointer;
   color: var(--text-color);
   font-family: var(--font-main);
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .time-btn:hover {
-  background: rgba(2, 132, 199, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .time-btn.active {
   background: var(--primary-color);
-  color: #fff;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: #000;
+  /* Contrast for active pill */
+  font-weight: 700;
+  box-shadow: 0 0 15px var(--primary-color);
 }
 
 .level-selector {
   display: flex;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.5);
-  padding: 0.25rem;
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
+  /* Water/Glass Effect */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.35rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05), 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .level-btn {
   background: transparent;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
   cursor: pointer;
   color: var(--text-color);
   font-family: var(--font-main);
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .level-btn:hover {
-  background: rgba(2, 132, 199, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .level-btn.active {
   background: var(--primary-color);
-  color: #fff;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 0 15px var(--primary-color);
 }
 
 .timer {
