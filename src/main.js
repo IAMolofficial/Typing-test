@@ -489,11 +489,11 @@ function startAmbientSound() {
   ambientOsc.connect(ambientGain);
   ambientGain.connect(audioCtx.destination);
 
-  ambientOsc.type = 'triangle'; // Triangle has more harmonics than Sine (easier to hear)
-  ambientOsc.frequency.setValueAtTime(80, audioCtx.currentTime); // 80Hz (Audible low drone)
+  ambientOsc.type = 'sawtooth'; // Sawtooth is very buzzy and audible
+  ambientOsc.frequency.setValueAtTime(150, audioCtx.currentTime); // 150Hz (Clear low-mid hum)
 
   ambientGain.gain.setValueAtTime(0, audioCtx.currentTime);
-  ambientGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 2); // Fade in to 0.5
+  ambientGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.5); // Fast fade in to 0.2 (Sawtooth is loud)
 
   ambientOsc.start();
 }
