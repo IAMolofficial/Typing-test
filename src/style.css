@@ -1,0 +1,323 @@
+:root {
+  --bg-color: #f0f9ff;
+  --text-color: #1e293b;
+  --primary-color: #0284c7;
+  --secondary-color: #6366f1;
+  --error-color: #ef4444;
+  --success-color: #22c55e;
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --font-main: 'Outfit', sans-serif;
+  --highlight-bg: rgba(2, 132, 199, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.15) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 20%);
+}
+
+#app {
+  width: 100%;
+  max-width: 900px;
+  padding: 1rem;
+}
+
+.glass-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  max-height: 90vh;
+  /* Ensure it doesn't exceed screen height */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 1.75rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.timer {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+}
+
+.stats-bar {
+  display: flex;
+  gap: 2rem;
+  flex-shrink: 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.value {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.split-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-height: 0;
+  /* Important for flex child scrolling */
+  overflow: hidden;
+}
+
+.reference-container {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 1.5rem;
+  border-radius: 12px;
+  overflow-y: auto;
+  border: 1px solid var(--glass-border);
+  position: relative;
+  scrollbar-width: thin;
+}
+
+.text-display {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #475569;
+  /* Darker slate for readability */
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Character states */
+.char {
+  position: relative;
+  transition: color 0.1s ease;
+}
+
+.char.correct {
+  color: var(--text-color);
+}
+
+.char.incorrect {
+  color: var(--error-color);
+  text-decoration: underline;
+}
+
+.char.current {
+  color: var(--primary-color);
+  background-color: rgba(56, 189, 248, 0.1);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Blinking cursor effect on current char */
+.char.current::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  height: 80%;
+  width: 2px;
+  background-color: var(--primary-color);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Hidden input but capture focus */
+.input-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+}
+
+.input-container {
+  flex-shrink: 0;
+  height: 150px;
+}
+
+.visible-input {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.visible-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+/* Custom scrollbar */
+.reference-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reference-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.reference-container::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 20px;
+}
+
+/* Modal */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #ffffff;
+  /* Fallback */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(241, 245, 249, 1));
+  border: 1px solid var(--glass-border);
+  padding: 3rem;
+  border-radius: 24px;
+  text-align: center;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.overlay.show .modal-content {
+  transform: translateY(0);
+}
+
+.modal-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+}
+
+.final-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.result-label {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.result-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.primary-btn {
+  background: var(--primary-color);
+  color: #0f172a;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
+}
+
+.primary-btn:active {
+  transform: translateY(0);
+}

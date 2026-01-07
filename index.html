@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Typing Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <div class="glass-container">
+      <header>
+        <h1>Typing Test</h1>
+        <div class="timer" id="timer">60s</div>
+      </header>
+
+      <div class="stats-bar" id="live-stats">
+        <div class="stat-item">
+          <span class="label">WPM</span>
+          <span class="value" id="current-wpm">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">Accuracy</span>
+          <span class="value" id="current-acc">100%</span>
+        </div>
+      </div>
+
+      <div class="split-container">
+        <div class="reference-container" id="reference-container">
+          <div class="text-display" id="quote-display">
+            <!-- Text will be injected here -->
+          </div>
+        </div>
+
+        <div class="input-container">
+          <textarea id="input-field" class="visible-input" placeholder="Start typing here..."
+            spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="overlay" id="results-modal">
+        <div class="modal-content">
+          <h2>Time's Up!</h2>
+          <div class="final-stats">
+            <div class="result-item">
+              <span class="result-label">WPM</span>
+              <span class="result-value" id="final-wpm">0</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Net WPM</span>
+              <span class="result-value" id="final-net-wpm">0</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Accuracy</span>
+              <span class="result-value" id="final-acc">0%</span>
+            </div>
+          </div>
+          <button id="restart-btn" class="primary-btn">Try Again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+import './style.css';
+
+const text = "The library was more than just a place filled with books. It was a gateway to endless worlds, each shelf holding the stories of those who had lived, dreamed, and imagined. The scent of aged paper and ink lingered in the air, mixing with the faint aroma of coffee from the reading lounge. A student sat at a wooden table, eyes scanning the pages of an old novel, fingers absentmindedly tracing the worn cover. A historian flipped through ancient documents, carefully turning each fragile page. In the farthest corner, a child sat cross-legged on the floor, completely lost in the magic of a fairy tale. The silence of the library was not empty—it was full of whispers from the past, voices from distant lands, echoes of ideas that had shaped the world. Every visit brought new discoveries, and for those who loved the written word, there was no place more sacred than this quiet temple of knowledge.";
+
+const quoteDisplay = document.getElementById('quote-display');
+const inputField = document.getElementById('input-field');
+const timerTag = document.getElementById('timer');
+const currentWpmTag = document.getElementById('current-wpm');
+const currentAccTag = document.getElementById('current-acc');
+const resultsModal = document.getElementById('results-modal');
+const finalWpmTag = document.getElementById('final-wpm');
+const finalNetWpmTag = document.getElementById('final-net-wpm');
+const finalAccTag = document.getElementById('final-acc');
+const restartBtn = document.getElementById('restart-btn');
+
+let timer;
+let maxTime = 60;
+let timeLeft = maxTime;
+let charIndex = 0;
+let mistakes = 0;
+let isTyping = false;
+
+function loadParagraph() {
+  quoteDisplay.innerHTML = "";
+  text.split("").forEach(char => {
+    let span = document.createElement("span");
+    span.innerText = char;
+    span.classList.add('char');
+    quoteDisplay.appendChild(span);
+  });
+  // Highlight the first character
+  quoteDisplay.querySelectorAll('span')[0].classList.add('current');
+
+  // Focus input on load
+  document.addEventListener('keydown', () => inputField.focus());
+  // Removed typingArea listener as it no longer exists
+  document.addEventListener('click', () => inputField.focus());
+}
+
+function initTyping() {
+  let characters = quoteDisplay.querySelectorAll("span");
+  let typedChar = inputField.value.split("")[charIndex];
+
+  if (charIndex < characters.length && timeLeft > 0) {
+    if (!isTyping) {
+      timer = setInterval(initTimer, 1000);
+      isTyping = true;
+    }
+
+    if (inputField.value.length < charIndex) {
+      // Backspace handled here implicitly if value length dropped? 
+      // Actually standard logic often uses 'input' event which gives the new value.
+      // If user hit backspace, charIndex needs to decrement.
+      // But inputField.value tracks the entire string? 
+      // Standard approach: Clear input value after each char? Or keep it?
+      // Keeping it is easier for mobile/updates.
+      // Wait, if I handle backspace, I need to know if it WAS a backspace.
+      // Input event doesn't tell key type easily.
+      // Let's rely on comparisons.
+    }
+
+    // Alternative robust logic:
+    // On 'input', we compare inputField.value with substring.
+    // Actually, simpler logic:
+    // Just handling char by char.
+
+    // Let's use the standard "typedChar" approach but careful with backspace.
+    // If inputField.value is NOT cleared, backspace removes last char.
+
+    // New Logic for Input Handler:
+    // We bind to 'input' event.
+    // If inputType is deleteContentBackward -> handle backspace
+    // Else -> handle typing.
+  } else if (charIndex >= characters.length) {
+    // Finished text
+    clearInterval(timer);
+    finishTest();
+  }
+}
+
+// Redefining initTyping to be robust
+inputField.addEventListener("input", (e) => {
+  const characters = quoteDisplay.querySelectorAll("span");
+
+  if (!isTyping && timeLeft > 0) {
+    timer = setInterval(initTimer, 1000);
+    isTyping = true;
+  }
+
+  // Logic for visible textarea:
+  // We treat the textarea value as the source of truth for the typed content.
+  // We iterate through the textarea value and compare with reference text.
+
+  let typedValue = inputField.value;
+  charIndex = typedValue.length; // Set cursor to end of typed text
+
+  // Reset all character states first
+  characters.forEach(span => span.classList.remove("correct", "incorrect", "current"));
+
+  mistakes = 0;
+
+  // Compare each character
+  const typeValueArr = typedValue.split('');
+  typeValueArr.forEach((char, index) => {
+    if (index < characters.length) {
+      if (char === characters[index].innerText) {
+        characters[index].classList.add("correct");
+      } else {
+        mistakes++;
+        characters[index].classList.add("incorrect");
+      }
+    }
+  });
+
+  // Check bounds
+  if (charIndex >= characters.length) {
+    // Finished?
+    clearInterval(timer);
+    finishTest();
+    return;
+  }
+
+  // Set Current Cursor
+  if (charIndex < characters.length) {
+    let currentChar = characters[charIndex];
+    currentChar.classList.add("current");
+    // Auto-scroll reference text to keep current char in view
+    currentChar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  updateLiveStats();
+});
+
+// Prevent backspace from navigating back if needed, but input field handles it.
+// Need to ensure inputField.value stays in sync with charIndex? 
+// Actually, if we just let inputField grow, it's fine.
+// So yes, we just let it grow.
+
+function initTimer() {
+  if (timeLeft > 0) {
+    timeLeft--;
+    timerTag.innerText = `${timeLeft}s`;
+
+    // WPM calculation every second
+    updateLiveStats();
+  } else {
+    clearInterval(timer);
+    finishTest();
+  }
+}
+
+function updateLiveStats() {
+  // Gross WPM = (All Typed / 5) / TimeElapsed(min)
+  // TimeElapsed = maxTime - timeLeft
+  let timeElapsed = maxTime - timeLeft;
+  if (timeElapsed === 0) return;
+
+  let wpm = Math.round(((charIndex) / 5) / (timeElapsed / 60));
+  wpm = wpm < 0 || !wpm || wpm === Infinity ? 0 : wpm;
+  currentWpmTag.innerText = wpm;
+
+  let acc = Math.round(((charIndex - mistakes) / charIndex) * 100);
+  acc = acc < 0 || !acc || acc === Infinity ? 100 : acc;
+  currentAccTag.innerText = `${acc}%`;
+}
+
+function finishTest() {
+  inputField.value = ""; // Clear input
+  inputField.blur();
+
+  let timeElapsed = maxTime - timeLeft;
+  if (timeElapsed === 0) timeElapsed = 1; // avoid div by 0 if instant
+
+  // Final Calcs
+  // Gross WPM
+  let grossWPM = Math.round(((charIndex) / 5) / (maxTime / 60)); // Standardized to total time or elapsed? Usually standardized to 1 min if time up.
+  // If finished early, use elapsed. If time up, use maxTime.
+  let calculationTime = (timeLeft === 0) ? maxTime : (maxTime - timeLeft);
+
+  grossWPM = Math.round(((charIndex) / 5) / (calculationTime / 60));
+
+  // Net WPM = Gross WPM - (Uncorrected Errors / Time)
+  // Here 'mistakes' tracks all errors made. Usually Net WPM penalizes uncorrected errors.
+  // But my logic counts 'mistakes' as any mismatch ever made? 
+  // Wait, on backspace `mistakes--` only if it was incorrect.
+  // So `mistakes` currently tracks "current uncorrected errors" or "total errors ever"?
+  // Code says: if incorrect -> mistakes++. If backspace on incorrect -> mistakes--.
+  // So `mistakes` = "Current Incorrect Characters on screen".
+  // This is correct for Net WPM calc.
+
+  let netWPM = Math.round(grossWPM - (mistakes / (calculationTime / 60)));
+  if (netWPM < 0) netWPM = 0;
+
+  let accuracy = Math.round(((charIndex - mistakes) / charIndex) * 100);
+  if (!accuracy || accuracy === Infinity) accuracy = 0; // Handle 0 chars
+  if (charIndex === 0) accuracy = 100;
+
+  finalWpmTag.innerText = grossWPM;
+  finalNetWpmTag.innerText = netWPM;
+  finalAccTag.innerText = `${accuracy}%`;
+
+  resultsModal.classList.add('show');
+}
+
+function resetGame() {
+  loadParagraph();
+  clearInterval(timer);
+  timeLeft = maxTime;
+  charIndex = 0;
+  mistakes = 0;
+  isTyping = false;
+  inputField.value = "";
+  timerTag.innerText = "60s";
+  currentWpmTag.innerText = 0;
+  currentAccTag.innerText = "100%";
+  resultsModal.classList.remove('show');
+}
+
+restartBtn.addEventListener('click', resetGame);
+
+// Init
+loadParagraph();
