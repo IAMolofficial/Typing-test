@@ -135,6 +135,25 @@ inputField.addEventListener("input", (e) => {
     }
   });
 
+  // Auto-Scroll Logic
+  // Find current char
+  const currentChar = characters[charIndex];
+  if (currentChar) {
+    // Check if it's near the bottom of view
+    const box = quoteDisplay;
+    const charTop = currentChar.offsetTop;
+    const boxHeight = box.clientHeight;
+    const boxScroll = box.scrollTop;
+
+    // If char is below half way, scroll to keep it centered
+    if ((charTop - box.offsetTop) > (boxScroll + boxHeight / 2)) {
+      box.scrollTo({
+        top: (charTop - box.offsetTop) - boxHeight / 2,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   // Check bounds
   if (charIndex >= characters.length) {
     // Finished?
@@ -291,6 +310,7 @@ function finishTest() {
 function resetGame() {
   loadParagraph();
   clearInterval(timer);
+  quoteDisplay.scrollTop = 0; // Reset Scroll
   timeLeft = maxTime;
   charIndex = 0;
   mistakes = 0;
@@ -328,48 +348,48 @@ timeBtns.forEach(btn => {
   });
 });
 
-// Theme Colors (Cyberpunk Gaming Mode)
+// Theme Colors (Holotech Mode)
 const themes = {
   easy: {
-    primary: '#00ff9d', // Neon Green
-    secondary: '#00cc7a',
-    bg: 'radial-gradient(circle at center, #001a1a 0%, #000000 100%)',
+    primary: '#2dd4bf', // Teal
+    secondary: '#f472b6',
+    bg: '#0f172a', /* Handled by CSS vars primarily */
     text: '#ffffff',
-    glass: 'rgba(0, 255, 157, 0.05)',
-    glassBorder: 'rgba(0, 255, 157, 0.3)',
+    glass: 'rgba(45, 212, 191, 0.1)',
+    glassBorder: 'rgba(45, 212, 191, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 40, acc: 92 },
     effect: 'none'
   },
   hard: {
-    primary: '#ffaa00', // Neon Gold
-    secondary: '#cc8800',
-    bg: 'radial-gradient(circle at center, #1a1100 0%, #000000 100%)',
+    primary: '#fcd34d', // Amber
+    secondary: '#fbbf24',
+    bg: '#0f172a',
     text: '#ffffff',
-    glass: 'rgba(255, 170, 0, 0.05)',
-    glassBorder: 'rgba(255, 170, 0, 0.3)',
+    glass: 'rgba(251, 191, 36, 0.1)',
+    glassBorder: 'rgba(251, 191, 36, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 60, acc: 94 },
     effect: 'none'
   },
   extreme: {
-    primary: '#ff003c', // Cyber Red
-    secondary: '#cc0030',
-    bg: 'radial-gradient(circle at center, #1a0006 0%, #000000 100%)',
+    primary: '#f87171', // Red
+    secondary: '#ef4444',
+    bg: '#0f172a',
     text: '#ffffff',
-    glass: 'rgba(255, 0, 60, 0.05)',
-    glassBorder: 'rgba(255, 0, 60, 0.5)',
+    glass: 'rgba(248, 113, 113, 0.1)',
+    glassBorder: 'rgba(248, 113, 113, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 80, acc: 96 },
     effect: 'embers'
   },
   expert: {
-    primary: '#bc13fe', // Electric Purple
-    secondary: '#8a0eb5',
-    bg: 'radial-gradient(circle at center, #12001a 0%, #000000 100%)',
+    primary: '#a78bfa', // Purple
+    secondary: '#8b5cf6',
+    bg: '#0f172a',
     text: '#ffffff',
-    glass: 'rgba(188, 19, 254, 0.05)',
-    glassBorder: 'rgba(188, 19, 254, 0.5)',
+    glass: 'rgba(167, 139, 250, 0.1)',
+    glassBorder: 'rgba(167, 139, 250, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 100, acc: 98 },
     effect: 'embers'
@@ -378,19 +398,16 @@ const themes = {
 
 function applyTheme(level) {
   const theme = themes[level];
+  document.documentElement.style.setProperty('--holo-teal', theme.primary);
+  document.documentElement.style.setProperty('--holo-pink', theme.secondary);
+  // Also set previous vars for compatibility
   document.documentElement.style.setProperty('--primary-color', theme.primary);
   document.documentElement.style.setProperty('--secondary-color', theme.secondary);
-  document.documentElement.style.setProperty('--bg-color', '#000000');
-  document.documentElement.style.setProperty('--text-color', theme.text);
-  document.documentElement.style.setProperty('--glass-bg', theme.glass);
-  document.documentElement.style.setProperty('--glass-border', theme.glassBorder);
-  document.documentElement.style.setProperty('--inner-bg', theme.innerBg);
-  document.body.style.background = theme.bg;
 
   // Set Effect
   currentEffect = theme.effect || 'none';
   if (currentEffect !== 'embers') {
-    particlesArray = []; // Clear particles if effect off
+    particlesArray = [];
   }
 }
 
@@ -402,7 +419,7 @@ levelBtns.forEach(btn => {
     levelBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    // set Level
+    // set Current Level
     currentLevel = btn.dataset.level;
 
     // Apply Theme
@@ -490,8 +507,11 @@ const soundBtn = document.getElementById('sound-toggle');
 soundBtn.addEventListener('click', () => {
   isMuted = !isMuted;
   soundBtn.innerText = isMuted ? '🔇' : '🔊';
-  if (isMuted && audioCtx.state === 'running') audioCtx.suspend();
-  if (!isMuted && audioCtx.state === 'suspended') audioCtx.resume();
+  if (isMuted && audioCtx) {
+    audioCtx.suspend();
+  } else if (!isMuted && audioCtx) {
+    audioCtx.resume();
+  }
 });
 
 restartBtn.addEventListener('click', resetGame);

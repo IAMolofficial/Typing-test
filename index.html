@@ -13,85 +13,100 @@
 
 <body>
   <div id="app">
-    <div class="glass-container">
-      <header>
-        <h1>Typing Test</h1>
-        <div class="time-selector">
-          <button class="time-btn active" data-time="60">60s</button>
-          <button class="time-btn" data-time="120">120s</button>
-          <button class="time-btn" data-time="180">180s</button>
+    <div class="bg-grid"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <main class="hud-container">
+
+      <!-- Top HUD: Stats & Config -->
+      <header class="hud-header">
+        <div class="logo-area">
+          <h1>TYPELAB <span class="version">v2.0</span></h1>
         </div>
+
+        <div class="stats-row">
+          <div class="stat-pill">
+            <span class="label">WPM</span>
+            <span class="value" id="current-wpm">0</span>
+          </div>
+          <div class="stat-pill">
+            <span class="label">ACC</span>
+            <span class="value" id="current-acc">100%</span>
+          </div>
+          <div class="stat-pill timer-pill">
+            <span class="value" id="timer">60s</span>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <!-- Dynamic Buttons injected here or keep existing structure if possible -->
+          <div class="header-controls">
+            <button id="leaderboard-btn" class="icon-btn" title="Leaderboard">🏆</button>
+            <button id="auth-btn" class="icon-btn" title="Login">👤</button>
+            <button id="sound-toggle" class="icon-btn" title="Sound">🔊</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Middle: Level Select (Integrated into HUD) -->
+      <div class="level-bar">
+        <!-- We will move level buttons here via JS or CSS positioning -->
         <div class="level-selector">
           <button class="level-btn active" data-level="easy">Easy</button>
           <button class="level-btn" data-level="hard">Hard</button>
           <button class="level-btn" data-level="extreme">Extreme</button>
           <button class="level-btn" data-level="expert">Expert</button>
         </div>
-        <div class="header-controls">
-          <button id="leaderboard-btn" class="icon-btn" title="Leaderboard">🏆</button>
-          <button id="auth-btn" class="icon-btn" title="Login/Profile">👤</button>
-          <button id="sound-toggle" class="icon-btn" title="Toggle Sound">🔊</button>
-        </div>
-      </header>
-      <canvas id="particles-canvas"></canvas>
-
-      <main class="game-container">
-
-        <!-- Top Section: Stats & Timer (Moved Timer here for better visibility) -->
-        <div class="game-header">
-          <div class="stats-bar" id="live-stats">
-            <div class="stat-item glow-box">
-              <span class="label">WPM</span>
-              <span class="value" id="current-wpm">0</span>
-            </div>
-            <div class="stat-item glow-box">
-              <span class="label">ACCURACY</span>
-              <span class="value" id="current-acc">100%</span>
-            </div>
-            <div class="stat-item glow-box timer-box">
-              <span class="label">TIME</span>
-              <span class="value" id="timer">60s</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Center: Text Display -->
-        <div class="text-area-wrapper glass-panel">
-          <div class="text-display" id="quote-display">
-            <!-- Text injected here -->
-          </div>
-        </div>
-
-        <!-- Bottom: Input Area -->
-        <div class="input-area-wrapper">
-          <textarea id="input-field" class="gaming-input" placeholder="Initiate Neural Link..."
-            spellcheck="false"></textarea>
-        </div>
-
-      </main>
-
-      <div class="overlay" id="results-modal">
-        <div class="modal-content">
-          <h2>Result</h2>
-          <div id="result-status" class="result-status"></div>
-          <div class="final-stats">
-            <div class="result-item">
-              <span class="result-label">WPM</span>
-              <span class="result-value" id="final-wpm">0</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Net WPM</span>
-              <span class="result-value" id="final-net-wpm">0</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Accuracy</span>
-              <span class="result-value" id="final-acc">0%</span>
-            </div>
-          </div>
-          <button id="restart-btn" class="primary-btn">Try Again</button>
+        <div class="time-selector">
+          <button class="time-btn active" data-time="60">60s</button>
+          <button class="time-btn" data-time="30">30s</button>
+          <button class="time-btn" data-time="15">15s</button>
         </div>
       </div>
+
+      <!-- Main Content Split -->
+      <div class="hud-body">
+
+        <!-- Monitor (Paragraph) -->
+        <div class="pane monitor-section">
+          <div class="pane-label">SOURCE_TEXT</div>
+          <div class="text-display-box" id="quote-display">
+            <!-- Text injected -->
+          </div>
+        </div>
+
+        <!-- Control Deck (Input) -->
+        <div class="pane input-section">
+          <div class="pane-label">INPUT_TERMINAL</div>
+          <textarea id="input-field" class="hud-input" placeholder=">> Awaiting Input..." spellcheck="false"></textarea>
+        </div>
+
+      </div>
+
+    </main>
+
+    <div class="overlay" id="results-modal">
+      <div class="modal-content">
+        <h2>Result</h2>
+        <div id="result-status" class="result-status"></div>
+        <div class="final-stats">
+          <div class="result-item">
+            <span class="result-label">WPM</span>
+            <span class="result-value" id="final-wpm">0</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Net WPM</span>
+            <span class="result-value" id="final-net-wpm">0</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Accuracy</span>
+            <span class="result-value" id="final-acc">0%</span>
+          </div>
+        </div>
+        <button id="restart-btn" class="primary-btn">Try Again</button>
+      </div>
     </div>
+  </div>
   </div>
   <!-- Auth Modal -->
   <div class="overlay" id="auth-modal">
