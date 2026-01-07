@@ -342,4 +342,5 @@ levelBtns.forEach(btn => {
 restartBtn.addEventListener('click', resetGame);
 
 // Init
+applyTheme(currentLevel); // Apply default theme on load
 loadParagraph();
