@@ -328,49 +328,49 @@ timeBtns.forEach(btn => {
   });
 });
 
-// Theme Colors (No Mercy - Dark Gaming Mode)
+// Theme Colors (Cyberpunk Gaming Mode)
 const themes = {
   easy: {
-    primary: '#4ade80', // Bright Green
-    secondary: '#22c55e',
-    bg: 'radial-gradient(circle at center, #022c22 0%, #000000 100%)',
-    text: '#e2e8f0', // Light Grey for better read
-    glass: 'rgba(2, 44, 34, 0.8)',
-    glassBorder: 'rgba(74, 222, 128, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)',
+    primary: '#00ff9d', // Neon Green
+    secondary: '#00cc7a',
+    bg: 'radial-gradient(circle at center, #001a1a 0%, #000000 100%)',
+    text: '#ffffff',
+    glass: 'rgba(0, 255, 157, 0.05)',
+    glassBorder: 'rgba(0, 255, 157, 0.3)',
+    innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 40, acc: 92 },
     effect: 'none'
   },
   hard: {
-    primary: '#fb923c',
-    secondary: '#ea580c',
-    bg: 'radial-gradient(circle at center, #431407 0%, #000000 100%)',
-    text: '#ffedd5',
-    glass: 'rgba(67, 20, 7, 0.8)',
-    glassBorder: 'rgba(251, 146, 60, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)',
+    primary: '#ffaa00', // Neon Gold
+    secondary: '#cc8800',
+    bg: 'radial-gradient(circle at center, #1a1100 0%, #000000 100%)',
+    text: '#ffffff',
+    glass: 'rgba(255, 170, 0, 0.05)',
+    glassBorder: 'rgba(255, 170, 0, 0.3)',
+    innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 60, acc: 94 },
     effect: 'none'
   },
   extreme: {
-    primary: '#f87171',
-    secondary: '#dc2626',
-    bg: 'radial-gradient(circle at center, #450a0a 0%, #000000 100%)',
-    text: '#fee2e2',
-    glass: 'rgba(69, 10, 10, 0.8)',
-    glassBorder: 'rgba(248, 113, 113, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)',
+    primary: '#ff003c', // Cyber Red
+    secondary: '#cc0030',
+    bg: 'radial-gradient(circle at center, #1a0006 0%, #000000 100%)',
+    text: '#ffffff',
+    glass: 'rgba(255, 0, 60, 0.05)',
+    glassBorder: 'rgba(255, 0, 60, 0.5)',
+    innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 80, acc: 96 },
     effect: 'embers'
   },
   expert: {
-    primary: '#a78bfa',
-    secondary: '#7c3aed',
-    bg: 'radial-gradient(circle at center, #2e1065 0%, #000000 100%)',
-    text: '#f3e8ff',
-    glass: 'rgba(46, 16, 101, 0.8)',
-    glassBorder: 'rgba(167, 139, 250, 0.2)',
-    innerBg: 'rgba(0, 0, 0, 0.3)',
+    primary: '#bc13fe', // Electric Purple
+    secondary: '#8a0eb5',
+    bg: 'radial-gradient(circle at center, #12001a 0%, #000000 100%)',
+    text: '#ffffff',
+    glass: 'rgba(188, 19, 254, 0.05)',
+    glassBorder: 'rgba(188, 19, 254, 0.5)',
+    innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 100, acc: 98 },
     effect: 'embers'
   }

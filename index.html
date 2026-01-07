@@ -32,34 +32,43 @@
           <button id="auth-btn" class="icon-btn" title="Login/Profile">👤</button>
           <button id="sound-toggle" class="icon-btn" title="Toggle Sound">🔊</button>
         </div>
-        <div class="timer" id="timer">60s</div>
       </header>
-
       <canvas id="particles-canvas"></canvas>
 
-      <div class="stats-bar" id="live-stats">
-        <div class="stat-item">
-          <span class="label">WPM</span>
-          <span class="value" id="current-wpm">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="label">Accuracy</span>
-          <span class="value" id="current-acc">100%</span>
-        </div>
-      </div>
+      <main class="game-container">
 
-      <div class="split-container">
-        <div class="reference-container" id="reference-container">
-          <div class="text-display" id="quote-display">
-            <!-- Text will be injected here -->
+        <!-- Top Section: Stats & Timer (Moved Timer here for better visibility) -->
+        <div class="game-header">
+          <div class="stats-bar" id="live-stats">
+            <div class="stat-item glow-box">
+              <span class="label">WPM</span>
+              <span class="value" id="current-wpm">0</span>
+            </div>
+            <div class="stat-item glow-box">
+              <span class="label">ACCURACY</span>
+              <span class="value" id="current-acc">100%</span>
+            </div>
+            <div class="stat-item glow-box timer-box">
+              <span class="label">TIME</span>
+              <span class="value" id="timer">60s</span>
+            </div>
           </div>
         </div>
 
-        <div class="input-container">
-          <textarea id="input-field" class="visible-input" placeholder="Start typing here..."
+        <!-- Center: Text Display -->
+        <div class="text-area-wrapper glass-panel">
+          <div class="text-display" id="quote-display">
+            <!-- Text injected here -->
+          </div>
+        </div>
+
+        <!-- Bottom: Input Area -->
+        <div class="input-area-wrapper">
+          <textarea id="input-field" class="gaming-input" placeholder="Initiate Neural Link..."
             spellcheck="false"></textarea>
         </div>
-      </div>
+
+      </main>
 
       <div class="overlay" id="results-modal">
         <div class="modal-content">
