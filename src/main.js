@@ -248,16 +248,33 @@ timeBtns.forEach(btn => {
 
 // Theme Colors
 const themes = {
-  easy: { primary: '#0284c7', secondary: '#38bdf8' },   // Sky Blue
-  hard: { primary: '#ea580c', secondary: '#fb923c' },   // Orange
-  extreme: { primary: '#dc2626', secondary: '#f87171' }, // Red
-  expert: { primary: '#7c3aed', secondary: '#a78bfa' }  // Purple
+  easy: {
+    primary: '#0284c7',
+    secondary: '#38bdf8',
+    bg: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)'
+  },
+  hard: {
+    primary: '#ea580c',
+    secondary: '#fb923c',
+    bg: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)'
+  },
+  extreme: {
+    primary: '#dc2626',
+    secondary: '#f87171',
+    bg: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)'
+  },
+  expert: {
+    primary: '#7c3aed',
+    secondary: '#a78bfa',
+    bg: 'linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%)'
+  }
 };
 
 function applyTheme(level) {
   const theme = themes[level];
   document.documentElement.style.setProperty('--primary-color', theme.primary);
   document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+  document.body.style.background = theme.bg;
 }
 
 // Level Selector Logic
