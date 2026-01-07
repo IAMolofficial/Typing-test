@@ -269,6 +269,8 @@ function finishTest() {
   if (netWPM >= criteria.wpm && accuracy >= criteria.acc) {
     statusEl.innerText = "PASSED!";
     statusEl.classList.add('passed');
+    // Save Score
+    saveScore(netWPM, accuracy, currentLevel);
   } else {
     statusEl.innerText = `FAILED! (Target: ${criteria.wpm} WPM / ${criteria.acc}%)`;
     statusEl.classList.add('failed');
@@ -293,6 +295,9 @@ function resetGame() {
   const statusEl = document.getElementById('result-status');
   if (statusEl) statusEl.innerText = "";
 }
+
+import './auth.js';
+import { saveScore } from './leaderboard.js';
 
 // Time Selector Logic
 const timeBtns = document.querySelectorAll('.time-btn');

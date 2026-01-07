@@ -27,9 +27,11 @@
           <button class="level-btn" data-level="extreme">Extreme</button>
           <button class="level-btn" data-level="expert">Expert</button>
         </div>
-        <button id="sound-toggle" class="icon-btn" title="Toggle Sound">
-          🔊
-        </button>
+        <div class="header-controls">
+          <button id="leaderboard-btn" class="icon-btn" title="Leaderboard">🏆</button>
+          <button id="auth-btn" class="icon-btn" title="Login/Profile">👤</button>
+          <button id="sound-toggle" class="icon-btn" title="Toggle Sound">🔊</button>
+        </div>
         <div class="timer" id="timer">60s</div>
       </header>
 
@@ -82,6 +84,35 @@
       </div>
     </div>
   </div>
+  <!-- Auth Modal -->
+  <div class="overlay" id="auth-modal">
+    <div class="modal-content auth-content">
+      <button class="close-btn" id="close-auth">×</button>
+      <h2 id="auth-title">Login</h2>
+      <form id="auth-form">
+        <input type="email" id="auth-email" placeholder="Email" required />
+        <input type="password" id="auth-password" placeholder="Password" required />
+        <input type="text" id="auth-username" placeholder="Username (for leaderboard)" style="display:none;" />
+        <button type="submit" class="primary-btn" id="auth-submit-btn">Login</button>
+      </form>
+      <p id="auth-toggle-text">Don't have an account? <span id="auth-switch-btn">Sign Up</span></p>
+      <p id="user-info" style="display:none;">Logged in as <span id="user-email-display"></span> <br> <button
+          id="logout-btn" class="text-btn">Logout</button></p>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div class="overlay" id="leaderboard-modal">
+    <div class="modal-content leaderboard-content">
+      <button class="close-btn" id="close-leaderboard">×</button>
+      <h2>Leaderboard</h2>
+      <div class="leaderboard-list" id="leaderboard-list">
+        <!-- Injected JS -->
+        <p>Loading...</p>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 

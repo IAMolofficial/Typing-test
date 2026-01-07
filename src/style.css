@@ -396,33 +396,27 @@ h1 {
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   /* Darker overlay for gaming feel */
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 10;
+  z-index: 100;
 }
 
 .overlay.show {
   opacity: 1;
-  pointer-events: auto;
+  pointer-events: all;
 }
 
 .modal-content {
   background: var(--glass-bg);
-  /* Match theme background */
-  backdrop-filter: blur(20px);
-  /* Stronger blur for modal */
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  padding: 3rem;
-  border-radius: 24px;
+  padding: 2rem;
+  border-radius: 20px;
   text-align: center;
-  transform: translateY(20px);
-  transition: transform 0.3s ease;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
   max-width: 90%;
   width: 500px;
@@ -443,6 +437,79 @@ h1 {
   font-weight: 700;
   margin-bottom: 2rem;
   min-height: 2rem;
+}
+
+/* Auth Form */
+#auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+#auth-form input {
+  background: var(--inner-bg);
+  border: 1px solid var(--glass-border);
+  padding: 0.8rem;
+  color: var(--text-color);
+  border-radius: 8px;
+  outline: none;
+}
+
+#auth-switch-btn {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  cursor: pointer;
+  margin-top: 0.5rem;
+  text-decoration: underline;
+}
+
+/* Leaderboard */
+.leaderboard-list {
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.score-row.highlight {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-color);
+}
+
+.header-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.header-controls .icon-btn {
+  font-size: 1.2rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .result-status.passed {
