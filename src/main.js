@@ -156,22 +156,34 @@ function playHeartbeat() {
     audioCtx.resume();
   }
 
-  const osc = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
+  const t = audioCtx.currentTime;
 
-  osc.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
+  // Helper to create one "thump"
+  function createThump(time, loud) {
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
 
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
 
-  // Heartbeat "Thump-Thump" envelope
-  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-  gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.1);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(50, time);
+    osc.frequency.exponentialRampToValueAtTime(30, time + 0.1);
 
-  osc.start(audioCtx.currentTime);
-  osc.stop(audioCtx.currentTime + 0.5);
+    // Loudness: Gain > 1 for overdrive/loudness
+    const volume = loud ? 2.5 : 1.5;
+
+    gainNode.gain.setValueAtTime(0, time);
+    gainNode.gain.linearRampToValueAtTime(volume, time + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
+
+    osc.start(time);
+    osc.stop(time + 0.3);
+  }
+
+  // Lub (softer) - Dub (harder/louder)
+  createThump(t, false);
+  createThump(t + 0.15, true);
 }
 
 function initTimer() {
