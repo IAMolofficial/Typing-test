@@ -33,11 +33,10 @@ body {
 
 #app {
   width: 100%;
-  max-width: 1400px;
-  /* Wider container */
+  max-width: 1000px;
+  /* Optimized width */
   padding: 1rem;
   height: 95vh;
-  /* Use full height */
   display: flex;
   flex-direction: column;
 }
@@ -55,8 +54,6 @@ body {
   gap: 1.5rem;
   position: relative;
   overflow: hidden;
-  max-height: 90vh;
-  /* Ensure it doesn't exceed screen height */
   flex: 1;
   /* Fill app height */
 }
@@ -146,29 +143,26 @@ h1 {
 
 .split-container {
   display: flex;
-  flex-direction: row;
-  /* Side by side */
-  gap: 2rem;
+  flex-direction: column;
+  /* Vertical Stack */
+  gap: 1.5rem;
   flex: 1;
   min-height: 0;
-  /* Important for flex child scrolling */
   overflow: hidden;
 }
 
 .reference-container {
   flex: 1;
-  /* Take 50% */
+  /* Take remaining space to show full text */
   background: rgba(255, 255, 255, 0.3);
   padding: 2rem;
   border-radius: 12px;
   overflow-y: auto;
-  /* Still auto just in case, but goal is fit */
   border: 1px solid var(--glass-border);
   position: relative;
   scrollbar-width: thin;
-  display: flex;
-  align-items: center;
-  /* Center text vertically */
+  display: block;
+  /* Normal block flow */
 }
 
 .text-display {
@@ -238,12 +232,11 @@ h1 {
 }
 
 .input-container {
-  flex: 1;
-  /* Take 50% */
+  flex-shrink: 0;
+  height: 120px;
+  /* Smaller, fixed height for input */
   display: flex;
   flex-direction: column;
-  height: auto;
-  /* Reset fixed height */
 }
 
 .visible-input {
@@ -252,7 +245,7 @@ h1 {
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   color: var(--text-color);
   font-family: var(--font-main);
   font-size: 1.25rem;
@@ -264,18 +257,6 @@ h1 {
 .visible-input:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-}
-
-/* Response for smaller screens */
-@media (max-width: 768px) {
-  .split-container {
-    flex-direction: column;
-  }
-
-  .input-container {
-    height: 200px;
-    flex: none;
-  }
 }
 
 .reference-container::-webkit-scrollbar-track {
