@@ -72,11 +72,43 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 
+.time-selector {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.time-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.time-btn:hover {
+  background: rgba(2, 132, 199, 0.1);
+}
+
+.time-btn.active {
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
 .timer {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--primary-color);
-  background: rgba(56, 189, 248, 0.1);
+  background: rgba(2, 132, 199, 0.1);
+  /* Adjusted for theme variable consistency */
   padding: 0.5rem 1rem;
   border-radius: 12px;
 }

@@ -210,11 +210,29 @@ function resetGame() {
   mistakes = 0;
   isTyping = false;
   inputField.value = "";
-  timerTag.innerText = "60s";
+  timerTag.innerText = `${maxTime}s`;
   currentWpmTag.innerText = 0;
   currentAccTag.innerText = "100%";
   resultsModal.classList.remove('show');
 }
+
+// Time Selector Logic
+const timeBtns = document.querySelectorAll('.time-btn');
+timeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Toggle Active Class
+    timeBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // set Time
+    maxTime = parseInt(btn.dataset.time);
+    timeLeft = maxTime;
+    timerTag.innerText = `${timeLeft}s`;
+
+    // Reset
+    resetGame();
+  });
+});
 
 restartBtn.addEventListener('click', resetGame);
 
