@@ -322,7 +322,8 @@ const themes = {
     glass: 'rgba(2, 44, 34, 0.8)',
     glassBorder: 'rgba(74, 222, 128, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.3)',
-    criteria: { wpm: 40, acc: 92 }
+    criteria: { wpm: 40, acc: 92 },
+    effect: 'none'
   },
   hard: {
     primary: '#fb923c',
@@ -332,7 +333,8 @@ const themes = {
     glass: 'rgba(67, 20, 7, 0.8)',
     glassBorder: 'rgba(251, 146, 60, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.3)',
-    criteria: { wpm: 60, acc: 94 }
+    criteria: { wpm: 60, acc: 94 },
+    effect: 'none'
   },
   extreme: {
     primary: '#f87171',
@@ -342,7 +344,8 @@ const themes = {
     glass: 'rgba(69, 10, 10, 0.8)',
     glassBorder: 'rgba(248, 113, 113, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.3)',
-    criteria: { wpm: 80, acc: 96 }
+    criteria: { wpm: 80, acc: 96 },
+    effect: 'embers'
   },
   expert: {
     primary: '#a78bfa',
@@ -352,7 +355,8 @@ const themes = {
     glass: 'rgba(46, 16, 101, 0.8)',
     glassBorder: 'rgba(167, 139, 250, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.3)',
-    criteria: { wpm: 100, acc: 98 }
+    criteria: { wpm: 100, acc: 98 },
+    effect: 'embers'
   }
 };
 
@@ -366,6 +370,12 @@ function applyTheme(level) {
   document.documentElement.style.setProperty('--glass-border', theme.glassBorder);
   document.documentElement.style.setProperty('--inner-bg', theme.innerBg);
   document.body.style.background = theme.bg;
+
+  // Set Effect
+  currentEffect = theme.effect || 'none';
+  if (currentEffect !== 'embers') {
+    particlesArray = []; // Clear particles if effect off
+  }
 }
 
 // Level Selector Logic
@@ -394,29 +404,32 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particlesArray = [];
-const colors = ['#4ade80', '#fb923c', '#f87171', '#a78bfa']; // Theme colors
+let currentEffect = 'none';
 
 class Particle {
   constructor(x, y, color) {
     this.x = x;
     this.y = y;
-    this.size = Math.random() * 5 + 2;
-    this.speedX = Math.random() * 4 - 2;
-    this.speedY = Math.random() * 4 - 2;
+    this.size = Math.random() * 3 + 1; // Smaller embers
+    this.speedX = Math.random() * 2 - 1; // Drift left/right
+    this.speedY = Math.random() * -3 - 1; // Float UP
     this.color = color;
-    this.life = 100;
+    this.life = 150; // Longer life
+    this.opacity = 1;
   }
   update() {
     this.x += this.speedX;
-    this.y += this.speedY;
-    this.life -= 2;
-    this.size *= 0.95;
+    this.y += this.speedY; // Move up
+    this.life--;
+    this.opacity = this.life / 150;
   }
   draw() {
+    ctx.globalAlpha = this.opacity;
     ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
+    ctx.globalAlpha = 1;
   }
 }
 
@@ -433,6 +446,17 @@ function handleParticles() {
 
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Continuous Spawn for Embers
+  if (currentEffect === 'embers') {
+    // Spawn random embers at bottom
+    if (Math.random() < 0.2) { // Density control
+      const color = themes[currentLevel].primary;
+      const x = Math.random() * canvas.width;
+      particlesArray.push(new Particle(x, canvas.height, color));
+    }
+  }
+
   handleParticles();
   requestAnimationFrame(animateParticles);
 }
@@ -443,16 +467,6 @@ window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
-
-function spawnParticles() {
-  // Spawn at center or random? Let's spawn near center bottom
-  // Or better: Spawn at mouse? No mouse.
-  // Spawn from bottom center like sparks
-  const color = themes[currentLevel].primary;
-  for (let i = 0; i < 5; i++) {
-    particlesArray.push(new Particle(window.innerWidth / 2, window.innerHeight - 100, color));
-  }
-}
 
 // --- Sound Toggle ---
 let isMuted = false;
