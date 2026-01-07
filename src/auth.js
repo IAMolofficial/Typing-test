@@ -96,13 +96,14 @@ onAuthStateChanged(auth, (user) => {
         authToggleText.style.display = 'none';
         userInfo.style.display = 'block';
         userEmailDisplay.innerText = user.displayName || user.email;
-        authBtn.innerText = '👤✅'; // Indicate logged in
+        // authBtn.innerText = '👤✅'; // Don't replace SVG with text
+        authBtn.classList.add('logged-in'); // We will style this class
         authBtn.title = `Logged in as ${user.displayName || user.email}`;
     } else {
         authForm.style.display = 'flex';
         authToggleText.style.display = 'block';
         userInfo.style.display = 'none';
-        authBtn.innerText = '👤';
+        authBtn.classList.remove('logged-in');
         authBtn.title = "Login/Profile";
     }
 });
