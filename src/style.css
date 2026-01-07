@@ -33,8 +33,13 @@ body {
 
 #app {
   width: 100%;
-  max-width: 900px;
+  max-width: 1400px;
+  /* Wider container */
   padding: 1rem;
+  height: 95vh;
+  /* Use full height */
+  display: flex;
+  flex-direction: column;
 }
 
 .glass-container {
@@ -52,6 +57,8 @@ body {
   overflow: hidden;
   max-height: 90vh;
   /* Ensure it doesn't exceed screen height */
+  flex: 1;
+  /* Fill app height */
 }
 
 header {
@@ -139,8 +146,9 @@ h1 {
 
 .split-container {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-direction: row;
+  /* Side by side */
+  gap: 2rem;
   flex: 1;
   min-height: 0;
   /* Important for flex child scrolling */
@@ -149,17 +157,23 @@ h1 {
 
 .reference-container {
   flex: 1;
+  /* Take 50% */
   background: rgba(255, 255, 255, 0.3);
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 12px;
   overflow-y: auto;
+  /* Still auto just in case, but goal is fit */
   border: 1px solid var(--glass-border);
   position: relative;
   scrollbar-width: thin;
+  display: flex;
+  align-items: center;
+  /* Center text vertically */
 }
 
 .text-display {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
+  /* Larger text */
   line-height: 1.8;
   color: #475569;
   /* Darker slate for readability */
@@ -224,8 +238,12 @@ h1 {
 }
 
 .input-container {
-  flex-shrink: 0;
-  height: 150px;
+  flex: 1;
+  /* Take 50% */
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  /* Reset fixed height */
 }
 
 .visible-input {
@@ -234,10 +252,10 @@ h1 {
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 2rem;
   color: var(--text-color);
   font-family: var(--font-main);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   resize: none;
   outline: none;
   transition: border-color 0.2s;
@@ -248,9 +266,16 @@ h1 {
   box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
 }
 
-/* Custom scrollbar */
-.reference-container::-webkit-scrollbar {
-  width: 6px;
+/* Response for smaller screens */
+@media (max-width: 768px) {
+  .split-container {
+    flex-direction: column;
+  }
+
+  .input-container {
+    height: 200px;
+    flex: none;
+  }
 }
 
 .reference-container::-webkit-scrollbar-track {
