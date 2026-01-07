@@ -167,8 +167,9 @@ h1 {
 }
 
 .text-display {
-  font-size: 1.1rem;
-  /* Smaller text to fit screen */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  /* "Size 9" interpretation (~14.4px) */
   line-height: 1.6;
   /* Tighter line height */
   color: #475569;
@@ -249,8 +250,8 @@ h1 {
   border-radius: 12px;
   padding: 1rem;
   color: var(--text-color);
-  font-family: var(--font-main);
-  font-size: 1.25rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
   resize: none;
   outline: none;
   transition: border-color 0.2s;
