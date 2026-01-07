@@ -152,6 +152,7 @@ inputField.addEventListener("input", (e) => {
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 function playHeartbeat() {
+  if (isMuted) return; // Mute check
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
@@ -384,6 +385,83 @@ levelBtns.forEach(btn => {
     // Reset
     resetGame();
   });
+});
+
+// --- Particles System ---
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particlesArray = [];
+const colors = ['#4ade80', '#fb923c', '#f87171', '#a78bfa']; // Theme colors
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.size = Math.random() * 5 + 2;
+    this.speedX = Math.random() * 4 - 2;
+    this.speedY = Math.random() * 4 - 2;
+    this.color = color;
+    this.life = 100;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.life -= 2;
+    this.size *= 0.95;
+  }
+  draw() {
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function handleParticles() {
+  for (let i = 0; i < particlesArray.length; i++) {
+    particlesArray[i].update();
+    particlesArray[i].draw();
+    if (particlesArray[i].life <= 0) {
+      particlesArray.splice(i, 1);
+      i--;
+    }
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  handleParticles();
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Resize canvas
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+function spawnParticles() {
+  // Spawn at center or random? Let's spawn near center bottom
+  // Or better: Spawn at mouse? No mouse.
+  // Spawn from bottom center like sparks
+  const color = themes[currentLevel].primary;
+  for (let i = 0; i < 5; i++) {
+    particlesArray.push(new Particle(window.innerWidth / 2, window.innerHeight - 100, color));
+  }
+}
+
+// --- Sound Toggle ---
+let isMuted = false;
+const soundBtn = document.getElementById('sound-toggle');
+soundBtn.addEventListener('click', () => {
+  isMuted = !isMuted;
+  soundBtn.innerText = isMuted ? '🔇' : '🔊';
+  if (isMuted && audioCtx.state === 'running') audioCtx.suspend();
+  if (!isMuted && audioCtx.state === 'suspended') audioCtx.resume();
 });
 
 restartBtn.addEventListener('click', resetGame);

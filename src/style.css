@@ -150,6 +150,27 @@ h1 {
   box-shadow: 0 0 15px var(--primary-color);
 }
 
+.icon-btn {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
 .timer {
   font-size: 1.5rem;
   font-weight: 700;
@@ -347,6 +368,23 @@ h1 {
 .reference-container::-webkit-scrollbar-thumb {
   background-color: var(--glass-border);
   border-radius: 20px;
+}
+
+/* Particles */
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure container content is above particles */
+.glass-container {
+  position: relative;
+  z-index: 1;
 }
 
 /* Modal */
