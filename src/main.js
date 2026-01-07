@@ -249,24 +249,24 @@ timeBtns.forEach(btn => {
 // Theme Colors
 const themes = {
   easy: {
-    primary: '#0284c7',
-    secondary: '#38bdf8',
-    bg: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)'
+    primary: '#16a34a', // Green
+    secondary: '#4ade80',
+    bg: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
   },
   hard: {
-    primary: '#ea580c',
+    primary: '#ea580c', // Orange
     secondary: '#fb923c',
     bg: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)'
   },
   extreme: {
-    primary: '#dc2626',
+    primary: '#dc2626', // Red
     secondary: '#f87171',
     bg: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)'
   },
   expert: {
-    primary: '#7c3aed',
-    secondary: '#a78bfa',
-    bg: 'linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%)'
+    primary: '#0f172a', // Dark Slate
+    secondary: '#475569',
+    bg: 'linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%)'
   }
 };
 
