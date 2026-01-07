@@ -273,6 +273,7 @@ function finishTest() {
     statusEl.innerText = `FAILED! (Target: ${criteria.wpm} WPM / ${criteria.acc}%)`;
     statusEl.classList.add('failed');
   }
+  stopAmbientSound();
 }
 
 function resetGame() {
@@ -292,6 +293,8 @@ function resetGame() {
   // Clear status
   const statusEl = document.getElementById('result-status');
   if (statusEl) statusEl.innerText = "";
+
+  stopAmbientSound();
 }
 
 // Time Selector Logic
@@ -468,14 +471,57 @@ window.addEventListener('resize', () => {
   canvas.height = window.innerHeight;
 });
 
+// --- Sound Logic ---
+let ambientOsc = null;
+let ambientGain = null;
+
+function startAmbientSound() {
+  if (isMuted || ambientOsc) return;
+  if (themes[currentLevel].effect !== 'embers') return; // Only for Extreme/Expert
+
+  ambientOsc = audioCtx.createOscillator();
+  ambientGain = audioCtx.createGain();
+
+  ambientOsc.connect(ambientGain);
+  ambientGain.connect(audioCtx.destination);
+
+  ambientOsc.type = 'sine';
+  ambientOsc.frequency.setValueAtTime(40, audioCtx.currentTime); // Low drone
+
+  ambientGain.gain.setValueAtTime(0, audioCtx.currentTime);
+  ambientGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 2); // Fade in
+
+  ambientOsc.start();
+}
+
+function stopAmbientSound() {
+  if (ambientOsc) {
+    const t = audioCtx.currentTime;
+    ambientGain.gain.cancelScheduledValues(t);
+    ambientGain.gain.setValueAtTime(ambientGain.gain.value, t);
+    ambientGain.gain.exponentialRampToValueAtTime(0.001, t + 1);
+    ambientOsc.stop(t + 1);
+    ambientOsc = null;
+    ambientGain = null;
+  }
+}
+
 // --- Sound Toggle ---
 let isMuted = false;
 const soundBtn = document.getElementById('sound-toggle');
 soundBtn.addEventListener('click', () => {
   isMuted = !isMuted;
   soundBtn.innerText = isMuted ? '🔇' : '🔊';
-  if (isMuted && audioCtx.state === 'running') audioCtx.suspend();
-  if (!isMuted && audioCtx.state === 'suspended') audioCtx.resume();
+
+  if (isMuted) {
+    if (audioCtx.state === 'running') audioCtx.suspend();
+  } else {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    // Restart ambient if we are mid-game and supposed to have it
+    if (isTyping && themes[currentLevel].effect === 'embers') {
+      startAmbientSound();
+    }
+  }
 });
 
 restartBtn.addEventListener('click', resetGame);
