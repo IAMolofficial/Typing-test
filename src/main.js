@@ -44,9 +44,20 @@ function loadParagraph() {
   quoteDisplay.querySelectorAll('span')[0].classList.add('current');
 
   // Focus input on load
-  document.addEventListener('keydown', () => inputField.focus());
-  // Removed typingArea listener as it no longer exists
-  document.addEventListener('click', () => inputField.focus());
+  // Focus input on load
+  document.addEventListener('keydown', (e) => {
+    // Don't steal focus if an overlay is open or user is typing in another input
+    if (document.querySelector('.overlay.show')) return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    inputField.focus();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (document.querySelector('.overlay.show')) return;
+    if (e.target.closest('.header-controls')) return; // Allow header clicks
+    if (e.target.tagName === 'BUTTON') return;
+    inputField.focus();
+  });
 }
 
 function initTyping() {
