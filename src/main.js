@@ -148,10 +148,44 @@ inputField.addEventListener("input", (e) => {
 // Actually, if we just let inputField grow, it's fine.
 // So yes, we just let it grow.
 
+// Sound Effect
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playHeartbeat() {
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+
+  // Heartbeat "Thump-Thump" envelope
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.1);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + 0.5);
+}
+
 function initTimer() {
   if (timeLeft > 0) {
     timeLeft--;
     timerTag.innerText = `${timeLeft}s`;
+
+    // Heartbeat Effect (Last 5 seconds)
+    if (timeLeft <= 5) {
+      timerTag.classList.add('heartbeat');
+      playHeartbeat();
+    } else {
+      timerTag.classList.remove('heartbeat');
+    }
 
     // WPM calculation every second
     updateLiveStats();
@@ -237,6 +271,7 @@ function resetGame() {
   isTyping = false;
   inputField.value = "";
   timerTag.innerText = `${maxTime}s`;
+  timerTag.classList.remove('heartbeat'); // Reset animation
   currentWpmTag.innerText = 0;
   currentAccTag.innerText = "100%";
   resultsModal.classList.remove('show');
