@@ -246,6 +246,20 @@ timeBtns.forEach(btn => {
   });
 });
 
+// Theme Colors
+const themes = {
+  easy: { primary: '#0284c7', secondary: '#38bdf8' },   // Sky Blue
+  hard: { primary: '#ea580c', secondary: '#fb923c' },   // Orange
+  extreme: { primary: '#dc2626', secondary: '#f87171' }, // Red
+  expert: { primary: '#7c3aed', secondary: '#a78bfa' }  // Purple
+};
+
+function applyTheme(level) {
+  const theme = themes[level];
+  document.documentElement.style.setProperty('--primary-color', theme.primary);
+  document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+}
+
 // Level Selector Logic
 const levelBtns = document.querySelectorAll('.level-btn');
 levelBtns.forEach(btn => {
@@ -256,6 +270,9 @@ levelBtns.forEach(btn => {
 
     // set Level
     currentLevel = btn.dataset.level;
+
+    // Apply Theme
+    applyTheme(currentLevel);
 
     // Reset
     resetGame();
