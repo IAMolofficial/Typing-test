@@ -107,6 +107,37 @@ h1 {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+.level-selector {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.level-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.level-btn:hover {
+  background: rgba(2, 132, 199, 0.1);
+}
+
+.level-btn.active {
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
 .timer {
   font-size: 1.25rem;
   font-weight: 600;

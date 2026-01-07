@@ -1,6 +1,17 @@
 import './style.css';
 
-const text = "The library was more than just a place filled with books. It was a gateway to endless worlds, each shelf holding the stories of those who had lived, dreamed, and imagined. The scent of aged paper and ink lingered in the air, mixing with the faint aroma of coffee from the reading lounge. A student sat at a wooden table, eyes scanning the pages of an old novel, fingers absentmindedly tracing the worn cover. A historian flipped through ancient documents, carefully turning each fragile page. In the farthest corner, a child sat cross-legged on the floor, completely lost in the magic of a fairy tale. The silence of the library was not empty—it was full of whispers from the past, voices from distant lands, echoes of ideas that had shaped the world. Every visit brought new discoveries, and for those who loved the written word, there was no place more sacred than this quiet temple of knowledge.";
+const texts = {
+  easy: "The library was more than just a place filled with books. It was a gateway to endless worlds, each shelf holding the stories of those who had lived, dreamed, and imagined. The scent of aged paper and ink lingered in the air, mixing with the faint aroma of coffee from the reading lounge. A student sat at a wooden table, eyes scanning the pages of an old novel, fingers absentmindedly tracing the worn cover. A historian flipped through ancient documents, carefully turning each fragile page. In the farthest corner, a child sat cross-legged on the floor, completely lost in the magic of a fairy tale. The silence of the library was not empty—it was full of whispers from the past, voices from distant lands, echoes of ideas that had shaped the world. Every visit brought new discoveries, and for those who loved the written word, there was no place more sacred than this quiet temple of knowledge.",
+
+  hard: "The phenomenon of quantum entanglement suggests that particles can become correlated to such a degree that the quantum state of each particle cannot be described independently of the others, even when the particles are separated by a large distance. This counterintuitive behavior, famously referred to by Einstein as 'spooky action at a distance', challenged the classical understanding of physics and causality. Experiments validating Bell's inequalities have since confirmed that local realism is incompatible with the predictions of quantum mechanics. As researchers delve deeper into quantum computing and cryptography, harnessing these intricate properties could lead to technological revolutions, redefining our capabilities in computation and secure communication.",
+
+  extreme: "In the year 2145, the XJ-900 automated terraforming unit malfunctioned at sector 7G-alpha. Error code: #0x5F32-B. The atmospheric pressure stabilized at 104.5 kPa, but the composition remained 78% N2, 20% O2, and 2% unknown volatile compounds. 'Initiating emergency protocol Omega-7,' the AI announced, its voice synthesized at 44.1 kHz. The temperature fluctuated wildly between -40°C and +85°C within minutes. Engineers scrambled to patch the firmware utilizing the legacy CLI: > sudo restart_core --force. The probability of catastrophic failure was calculated at 89.45% ± 0.05%. With only 120 seconds remaining, the lead developer, Sarah, typed the override sequence: { [email protected] #f2 }.",
+
+  expert: "Epistemological considerations regarding the nature of consciousness often intersect with the intricate neurobiological pathways governing cognition. The juxtaposition of subjective qualia and objective neuronal firing patterns presents the 'hard problem' formulated by Chalmers. Furthermore, the idiosyncrasies of synaptic plasticity, particularly long-term potentiation (LTP) and long-term depression (LTD), underscore the malleability of the connectome. Philosophers and neuroscientists alike grapple with the implications of determinism versus free will in a system driven by stochastic biochemical processes. To elucidate the architectural underpinnings of sentience requires a synthesis of phenomenology, cybernetics, and molecular biology, transcending reductionist paradigms to embrace a holistic systems theory approach."
+};
+
+let currentLevel = 'easy';
+let text = texts[currentLevel];
 
 const quoteDisplay = document.getElementById('quote-display');
 const inputField = document.getElementById('input-field');
@@ -21,6 +32,7 @@ let mistakes = 0;
 let isTyping = false;
 
 function loadParagraph() {
+  text = texts[currentLevel]; // Update text based on level
   quoteDisplay.innerHTML = "";
   text.split("").forEach(char => {
     let span = document.createElement("span");
@@ -228,6 +240,22 @@ timeBtns.forEach(btn => {
     maxTime = parseInt(btn.dataset.time);
     timeLeft = maxTime;
     timerTag.innerText = `${timeLeft}s`;
+
+    // Reset
+    resetGame();
+  });
+});
+
+// Level Selector Logic
+const levelBtns = document.querySelectorAll('.level-btn');
+levelBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Toggle Active Class
+    levelBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // set Level
+    currentLevel = btn.dataset.level;
 
     // Reset
     resetGame();
