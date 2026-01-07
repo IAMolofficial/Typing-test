@@ -274,40 +274,38 @@ body {
 .text-display-box {
   flex: 1;
   overflow-y: auto;
-  /* Internal Scroll */
-  scrollbar-width: thin;
-  scrollbar-color: var(--holo-teal) transparent;
-  padding: 1rem;
-  font-size: 1.5rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.2);
+  /* Internal Scroll allowed but hidden */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+  padding: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.4);
   white-space: pre-wrap;
-  /* Preserve spacing */
 }
 
 .text-display-box::-webkit-scrollbar {
-  width: 6px;
-}
-
-.text-display-box::-webkit-scrollbar-thumb {
-  background: var(--holo-teal);
-  border-radius: 3px;
+  display: none;
 }
 
 .char.correct {
   color: #fff;
-  text-shadow: 0 0 5px var(--holo-teal);
+  text-shadow: 0 0 8px var(--holo-teal);
 }
 
 .char.incorrect {
   color: var(--holo-pink);
-  text-shadow: 0 0 5px var(--holo-pink);
+  text-shadow: 0 0 8px var(--holo-pink);
   text-decoration: underline;
+  background: rgba(244, 114, 182, 0.1);
 }
 
 .char.current {
   background: rgba(45, 212, 191, 0.2);
   border-left: 2px solid var(--holo-teal);
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.1);
 }
 
 /* Input Section */
