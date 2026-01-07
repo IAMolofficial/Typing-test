@@ -246,27 +246,39 @@ timeBtns.forEach(btn => {
   });
 });
 
-// Theme Colors
+// Theme Colors (No Mercy - Dark Gaming Mode)
 const themes = {
   easy: {
-    primary: '#16a34a', // Green
-    secondary: '#4ade80',
-    bg: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
+    primary: '#4ade80', // Bright Green
+    secondary: '#22c55e',
+    bg: 'radial-gradient(circle at center, #022c22 0%, #000000 100%)', // Deep Green/Black
+    text: '#f0fdf4',
+    glass: 'rgba(2, 44, 34, 0.7)',
+    glassBorder: 'rgba(74, 222, 128, 0.2)'
   },
   hard: {
-    primary: '#ea580c', // Orange
-    secondary: '#fb923c',
-    bg: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)'
+    primary: '#fb923c', // Bright Orange
+    secondary: '#ea580c',
+    bg: 'radial-gradient(circle at center, #431407 0%, #000000 100%)', // Deep Orange/Black
+    text: '#fff7ed',
+    glass: 'rgba(67, 20, 7, 0.7)',
+    glassBorder: 'rgba(251, 146, 60, 0.2)'
   },
   extreme: {
-    primary: '#dc2626', // Red
-    secondary: '#f87171',
-    bg: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)'
+    primary: '#f87171', // Bright Red
+    secondary: '#dc2626',
+    bg: 'radial-gradient(circle at center, #450a0a 0%, #000000 100%)', // Deep Red/Black
+    text: '#fef2f2',
+    glass: 'rgba(69, 10, 10, 0.7)',
+    glassBorder: 'rgba(248, 113, 113, 0.2)'
   },
   expert: {
-    primary: '#0f172a', // Dark Slate
-    secondary: '#475569',
-    bg: 'linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%)'
+    primary: '#a78bfa', // Bright Purple
+    secondary: '#7c3aed',
+    bg: 'radial-gradient(circle at center, #2e1065 0%, #000000 100%)', // Deep Purple/Black
+    text: '#f5f3ff',
+    glass: 'rgba(46, 16, 101, 0.7)',
+    glassBorder: 'rgba(167, 139, 250, 0.2)'
   }
 };
 
@@ -274,6 +286,10 @@ function applyTheme(level) {
   const theme = themes[level];
   document.documentElement.style.setProperty('--primary-color', theme.primary);
   document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+  document.documentElement.style.setProperty('--bg-color', '#000000'); // Fallback
+  document.documentElement.style.setProperty('--text-color', theme.text);
+  document.documentElement.style.setProperty('--glass-bg', theme.glass);
+  document.documentElement.style.setProperty('--glass-border', theme.glassBorder);
   document.body.style.background = theme.bg;
 }
 
