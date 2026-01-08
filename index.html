@@ -6,6 +6,18 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TypeX - Next Gen Typing</title>
+  <meta name="description"
+    content="TypeX: The futuristic, Holotech-themed typing speed test. Track your WPM, Accuracy, and compete on global leaderboards.">
+  <meta name="keywords" content="typing test, wpm test, typing speed, typewriter, esports, holotech, cyberpunk, coding">
+  <meta name="author" content="TypeX Team">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://typex.app/">
+  <meta property="og:title" content="TypeX - Next Gen Typing">
+  <meta property="og:description" content="Test your typing speed in a high-tech Holotech HUD environment.">
+  <meta property="og:image" content="preview.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -41,7 +53,7 @@
         <div class="controls-row">
           <!-- Dynamic Buttons injected here or keep existing structure if possible -->
           <div class="header-controls">
-            <button id="leaderboard-btn" class="icon-btn" title="Leaderboard">
+            <button id="leaderboard-btn" class="icon-btn" title="Leaderboard" aria-label="Open Leaderboard">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
@@ -52,14 +64,14 @@
                 <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
               </svg>
             </button>
-            <button id="auth-btn" class="icon-btn" title="Login">
+            <button id="auth-btn" class="icon-btn" title="Login" aria-label="Login">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
             </button>
-            <button id="sound-toggle" class="icon-btn" title="Sound">
+            <button id="sound-toggle" class="icon-btn" title="Sound" aria-label="Toggle Sound">
               <svg id="sound-icon-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
@@ -134,7 +146,7 @@
   <!-- Auth Modal -->
   <div class="overlay" id="auth-modal">
     <div class="modal-content auth-content">
-      <button class="close-btn" id="close-auth">×</button>
+      <button class="close-btn" id="close-auth" aria-label="Close Modal">×</button>
       <h2 id="auth-title">Login</h2>
       <form id="auth-form">
         <input type="email" id="auth-email" placeholder="Email" required />
@@ -151,7 +163,7 @@
   <!-- Leaderboard Modal -->
   <div class="overlay" id="leaderboard-modal">
     <div class="modal-content leaderboard-content">
-      <button class="close-btn" id="close-leaderboard">×</button>
+      <button class="close-btn" id="close-leaderboard" aria-label="Close Modal">×</button>
       <h2>Leaderboard</h2>
       <div class="leaderboard-list" id="leaderboard-list">
         <!-- Injected JS -->
