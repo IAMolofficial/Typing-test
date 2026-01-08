@@ -259,11 +259,13 @@ function finishTest() {
   if (netWPM >= criteria.wpm && accuracy >= criteria.acc) {
     statusEl.innerText = "PASSED!";
     statusEl.classList.add('passed');
+    playPassAnimation(); // Success
     // Save Score
     saveScore(netWPM, accuracy, currentLevel);
   } else {
     statusEl.innerText = `FAILED! (Target: ${criteria.wpm} WPM / ${criteria.acc}%)`;
     statusEl.classList.add('failed');
+    playFailAnimation(); // Failure
   }
 }
 
@@ -387,17 +389,127 @@ levelBtns.forEach(btn => {
   });
 });
 
-// --- NO Visual Effects System (Simplified) ---
+// --- Result Animations ---
 const canvas = document.getElementById('particles-canvas');
 const ctx = canvas.getContext('2d');
-// Keep canvas for layout stability but clear it
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+let effectsArray = [];
+let animationFrameId;
+
+// Pass: Confetti
+class Confetti {
+  constructor(color) {
+    this.x = canvas.width / 2;
+    this.y = canvas.height / 2;
+    this.size = Math.random() * 8 + 4;
+    this.speedX = (Math.random() - 0.5) * 15; // Explosive
+    this.speedY = (Math.random() - 0.5) * 15;
+    this.color = color;
+    this.gravity = 0.2;
+    this.friction = 0.95;
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = Math.random() * 10 - 5;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.speedY += this.gravity;
+    this.speedX *= this.friction;
+    this.rotation += this.rotationSpeed;
+    if (this.size > 0.2) this.size -= 0.05;
+  }
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate((this.rotation * Math.PI) / 180);
+    ctx.fillStyle = this.color;
+    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+    ctx.restore();
+  }
+}
+
+// Fail: Heavy Rain
+class RainDrop {
+  constructor(color) {
+    this.x = Math.random() * canvas.width;
+    this.y = -50;
+    this.size = Math.random() * 2 + 1;
+    this.speedY = Math.random() * 10 + 10; // Fast
+    this.color = color;
+    this.length = Math.random() * 20 + 10;
+  }
+  update() {
+    this.y += this.speedY;
+  }
+  draw() {
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = this.size;
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x, this.y + this.length);
+    ctx.stroke();
+  }
+}
+
+function playPassAnimation() {
+  effectsArray = [];
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const colors = ['#2dd4bf', '#f472b6', '#fbbf24', '#ffffff'];
+  for (let i = 0; i < 150; i++) {
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    effectsArray.push(new Confetti(color));
+  }
+  animateResults();
+}
+
+function playFailAnimation() {
+  effectsArray = [];
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Shake Screen
+  document.body.classList.add('shake');
+  setTimeout(() => document.body.classList.remove('shake'), 500);
+
+  // Rain for 2 seconds
+  const interval = setInterval(() => {
+    if (effectsArray.length > 200) clearInterval(interval);
+    for (let i = 0; i < 5; i++) effectsArray.push(new RainDrop('#ef4444'));
+  }, 50);
+
+  animateResults();
+}
+
+function animateResults() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < effectsArray.length; i++) {
+    effectsArray[i].update();
+    effectsArray[i].draw();
+
+    // Cleanup
+    if (effectsArray[i].size <= 0.2 || effectsArray[i].y > canvas.height) {
+      effectsArray.splice(i, 1);
+      i--;
+    }
+  }
+
+  if (effectsArray.length > 0) {
+    animationFrameId = requestAnimationFrame(animateResults);
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
 
 function initEffects(effectName, color) {
   // Clear any existing
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // No loops
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
+  effectsArray = [];
 }
 
 // Resize canvas
