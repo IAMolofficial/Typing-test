@@ -467,6 +467,7 @@ function playPassAnimation() {
     effectsArray.push(new Confetti(color));
   }
   playResultSound(true); // Sound
+  canvas.style.zIndex = 2000; // Bring to front
   animateResults();
 }
 
@@ -489,6 +490,7 @@ function playFailAnimation() {
   for (let i = 0; i < 5; i++) effectsArray.push(new RainDrop('#ef4444'));
 
   playResultSound(false); // Sound
+  canvas.style.zIndex = 2000; // Bring to front
   animateResults();
 }
 
@@ -518,6 +520,7 @@ function initEffects(effectName, color) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (animationFrameId) cancelAnimationFrame(animationFrameId);
   effectsArray = [];
+  canvas.style.zIndex = -1; // Send to back
 }
 
 // Resize canvas
