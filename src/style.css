@@ -53,6 +53,12 @@ body.light-mode {
 
   /* Adjust glow to be subtle shadows instead */
   --text-shadow-color: rgba(0, 0, 0, 0.2);
+
+  /* Override Accents for Contrast */
+  --holo-teal: #0d9488;
+  /* Teal 600 (Darker) */
+  --holo-pink: #db2777;
+  /* Pink 600 (Darker) */
 }
 
 /* Light Mode Specific Overrides */
