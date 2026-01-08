@@ -482,6 +482,10 @@ function playFailAnimation() {
     for (let i = 0; i < 5; i++) effectsArray.push(new RainDrop('#ef4444'));
   }, 50);
 
+  // Initial spawn to start loop
+  for (let i = 0; i < 5; i++) effectsArray.push(new RainDrop('#ef4444'));
+
+  playResultSound(false); // Sound
   animateResults();
 }
 
