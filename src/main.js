@@ -319,7 +319,7 @@ const themes = {
     glassBorder: 'rgba(45, 212, 191, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 40, acc: 92 },
-    effect: 'matrix'
+    effect: 'none'
   },
   hard: {
     primary: '#fcd34d', // Amber
@@ -330,7 +330,7 @@ const themes = {
     glassBorder: 'rgba(251, 191, 36, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 60, acc: 94 },
-    effect: 'glyphs'
+    effect: 'none'
   },
   extreme: {
     primary: '#f87171', // Red
@@ -341,7 +341,7 @@ const themes = {
     glassBorder: 'rgba(248, 113, 113, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 80, acc: 96 },
-    effect: 'glitch'
+    effect: 'none'
   },
   expert: {
     primary: '#a78bfa', // Purple
@@ -352,7 +352,7 @@ const themes = {
     glassBorder: 'rgba(167, 139, 250, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 100, acc: 98 },
-    effect: 'hyperspace'
+    effect: 'none'
   }
 };
 
@@ -387,181 +387,17 @@ levelBtns.forEach(btn => {
   });
 });
 
-// --- Advanced Visual Effects System ---
+// --- NO Visual Effects System (Simplified) ---
 const canvas = document.getElementById('particles-canvas');
 const ctx = canvas.getContext('2d');
+// Keep canvas for layout stability but clear it
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let effectsArray = [];
-let animationFrameId;
-
-// --- Effect Classes ---
-
-// 1. Digital Rain (Easy - Teal)
-class MatrixSymbol {
-  constructor(x, y, velocity, color) {
-    this.x = x;
-    this.y = y;
-    this.velocity = velocity;
-    this.color = color;
-    this.text = String.fromCharCode(0x30A0 + Math.random() * 96); // Katakana
-    this.fontSize = Math.floor(Math.random() * 14) + 10;
-  }
-  update() {
-    this.y += this.velocity;
-    if (this.y > canvas.height) {
-      this.y = 0 - this.fontSize;
-      this.x = Math.random() * canvas.width;
-      this.text = String.fromCharCode(0x30A0 + Math.random() * 96);
-    }
-  }
-  draw() {
-    ctx.fillStyle = this.color;
-    ctx.font = `${this.fontSize}px monospace`;
-    ctx.fillText(this.text, this.x, this.y);
-  }
-}
-
-// 2. Floating Glyphs (Hard - Gold)
-class FloatingGlyph {
-  constructor(color) {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 20 + 10;
-    this.speedX = Math.random() * 0.5 - 0.25;
-    this.speedY = Math.random() * 0.5 - 0.25;
-    this.color = color;
-    this.char = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random() * 36)];
-    this.angle = Math.random() * 360;
-    this.spin = Math.random() * 0.02 - 0.01;
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.angle += this.spin;
-
-    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-  }
-  draw() {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.fillStyle = this.color;
-    ctx.font = `${this.size}px 'Orbitron'`;
-    ctx.globalAlpha = 0.4;
-    ctx.fillText(this.char, -this.size / 2, this.size / 2);
-    ctx.restore();
-  }
-}
-
-// 3. Glitch Sparks (Extreme - Red)
-class GlitchSpark {
-  constructor(color) {
-    this.x = Math.random() * canvas.width;
-    this.y = canvas.height + Math.random() * 50;
-    this.size = Math.random() * 3 + 1;
-    this.speedY = Math.random() * -5 - 2; // Fast up
-    this.color = color;
-    this.colorAlt = '#ffffff';
-  }
-  update() {
-    this.y += this.speedY;
-    // Glitch movement
-    if (Math.random() < 0.1) this.x += (Math.random() * 20 - 10);
-  }
-  draw() {
-    ctx.fillStyle = Math.random() < 0.1 ? this.colorAlt : this.color;
-    ctx.fillRect(this.x, this.y, this.size, this.size * Math.random() * 5); // Stretched
-  }
-}
-
-// 4. Hyperspace (Expert - Purple)
-class Star {
-  constructor(color) {
-    this.x = Math.random() * canvas.width - canvas.width / 2;
-    this.y = Math.random() * canvas.height - canvas.height / 2;
-    this.z = Math.random() * canvas.width; // Depth
-    this.color = color;
-  }
-  update() {
-    this.z -= 10; // Speed
-    if (this.z <= 0) {
-      this.z = canvas.width;
-      this.x = Math.random() * canvas.width - canvas.width / 2;
-      this.y = Math.random() * canvas.height - canvas.height / 2;
-    }
-  }
-  draw() {
-    let x = (this.x / this.z) * canvas.width / 2 + canvas.width / 2;
-    let y = (this.y / this.z) * canvas.height / 2 + canvas.height / 2;
-    let size = (canvas.width - this.z) / canvas.width * 3;
-
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-// --- Init Effects ---
-let currentEffectName = 'none';
-
 function initEffects(effectName, color) {
-  effectsArray = [];
-  currentEffectName = effectName;
-  if (animationFrameId) cancelAnimationFrame(animationFrameId); // Stop previous loop
-
-  if (effectName === 'matrix') {
-    for (let i = 0; i < 50; i++) {
-      effectsArray.push(new MatrixSymbol(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2 + 1, color));
-    }
-  } else if (effectName === 'glyphs') {
-    for (let i = 0; i < 30; i++) {
-      effectsArray.push(new FloatingGlyph(color));
-    }
-  } else if (effectName === 'hyperspace') {
-    for (let i = 0; i < 150; i++) {
-      effectsArray.push(new Star(color));
-    }
-  }
-  // Glitch starts empty and spawns
-
-  animateEffects(); // Start new loop
-}
-
-// Loop
-function animateEffects() {
-  // Clear with trails?
-  if (currentEffectName === 'hyperspace') {
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.4)'; // Trail effect
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  } else {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-
-  // Handle Spawning for Glitch
-  if (currentEffectName === 'glitch') {
-    const color = themes.extreme.primary;
-    if (Math.random() < 0.3) {
-      effectsArray.push(new GlitchSpark(color));
-    }
-    // Remove old
-    for (let i = 0; i < effectsArray.length; i++) {
-      if (effectsArray[i].y < 0) {
-        effectsArray.splice(i, 1);
-        i--;
-      }
-    }
-  }
-
-  effectsArray.forEach(p => {
-    p.update();
-    p.draw();
-  });
-
-  animationFrameId = requestAnimationFrame(animateEffects);
+  // Clear any existing
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // No loops
 }
 
 // Resize canvas
