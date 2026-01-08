@@ -359,7 +359,7 @@ const themes = {
     glassBorder: 'rgba(45, 212, 191, 0.2)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 40, acc: 92 },
-    effect: 'none'
+    effect: 'matrix'
   },
   hard: {
     primary: '#fcd34d', // Amber
@@ -370,7 +370,7 @@ const themes = {
     glassBorder: 'rgba(251, 191, 36, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 60, acc: 94 },
-    effect: 'none'
+    effect: 'glyphs'
   },
   extreme: {
     primary: '#f87171', // Red
@@ -381,7 +381,7 @@ const themes = {
     glassBorder: 'rgba(248, 113, 113, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 80, acc: 96 },
-    effect: 'embers'
+    effect: 'glitch'
   },
   expert: {
     primary: '#a78bfa', // Purple
@@ -392,7 +392,7 @@ const themes = {
     glassBorder: 'rgba(167, 139, 250, 0.3)',
     innerBg: 'rgba(0, 0, 0, 0.6)',
     criteria: { wpm: 100, acc: 98 },
-    effect: 'embers'
+    effect: 'hyperspace'
   }
 };
 
@@ -404,11 +404,8 @@ function applyTheme(level) {
   document.documentElement.style.setProperty('--primary-color', theme.primary);
   document.documentElement.style.setProperty('--secondary-color', theme.secondary);
 
-  // Set Effect
-  currentEffect = theme.effect || 'none';
-  if (currentEffect !== 'embers') {
-    particlesArray = [];
-  }
+  // Initialize Effect
+  initEffects(theme.effect, theme.primary);
 }
 
 // Level Selector Logic
