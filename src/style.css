@@ -75,6 +75,18 @@ body.light-mode .char.current {
   box-shadow: none;
 }
 
+body.light-mode .stat-pill .value {
+  color: var(--text-main);
+  /* Dark text for stats */
+}
+
+body.light-mode .timer-pill .value {
+  color: #dc2626;
+  /* Deep Red for visibility */
+  text-shadow: none;
+  font-weight: 700;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
