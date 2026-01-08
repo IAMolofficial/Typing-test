@@ -287,6 +287,9 @@ function resetGame() {
   // Clear status
   const statusEl = document.getElementById('result-status');
   if (statusEl) statusEl.innerText = "";
+
+  // Stop any animations
+  initEffects('none');
 }
 
 import './auth.js';
