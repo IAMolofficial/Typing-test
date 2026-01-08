@@ -42,6 +42,39 @@
   --font-mono: 'Roboto Mono', monospace;
 }
 
+body.light-mode {
+  --bg-deep: #f1f5f9;
+  /* Slate 100 */
+  --bg-panel: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --text-main: #0f172a;
+  /* Slate 900 */
+  --text-dim: #475569;
+
+  /* Adjust glow to be subtle shadows instead */
+  --text-shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Light Mode Specific Overrides */
+body.light-mode .char.correct {
+  color: #0f172a;
+  /* Dark text for correct */
+  text-shadow: none;
+  font-weight: 600;
+}
+
+body.light-mode .text-display-box {
+  color: #94a3b8;
+  /* Slate 400 for untyped */
+}
+
+body.light-mode .char.current {
+  background: rgba(45, 212, 191, 0.3);
+  /* Darker selection */
+  border-left: 2px solid var(--holo-teal);
+  box-shadow: none;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
