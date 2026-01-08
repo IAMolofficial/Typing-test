@@ -463,6 +463,7 @@ function playPassAnimation() {
     const color = colors[Math.floor(Math.random() * colors.length)];
     effectsArray.push(new Confetti(color));
   }
+  playResultSound(true); // Sound
   animateResults();
 }
 
@@ -527,6 +528,46 @@ const soundOnSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="2
 const soundOffSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" x2="1" y1="1" y2="23"/></svg>`;
 
 soundBtn.innerHTML = soundOnSVG;
+
+function playResultSound(success) {
+  if (isMuted) return;
+  if (!audioCtx) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  if (success) {
+    // Pass: Rising Major Arpeggio (Level Up)
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, t);       // A4
+    osc.frequency.setValueAtTime(554.37, t + 0.1); // C#5
+    osc.frequency.setValueAtTime(659.25, t + 0.2); // E5
+    osc.frequency.setValueAtTime(880, t + 0.3);    // A5
+
+    gain.gain.setValueAtTime(0.1, t);
+    gain.gain.linearRampToValueAtTime(0.3, t + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+
+    osc.start(t);
+    osc.stop(t + 0.6);
+  } else {
+    // Fail: Descending 'Error' Glitch
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(150, t);
+    osc.frequency.linearRampToValueAtTime(50, t + 0.4); // Slide down
+
+    gain.gain.setValueAtTime(0.2, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+
+    osc.start(t);
+    osc.stop(t + 0.4);
+  }
+}
 
 soundBtn.addEventListener('click', () => {
   isMuted = !isMuted;
